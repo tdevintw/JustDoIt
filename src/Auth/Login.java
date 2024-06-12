@@ -7,8 +7,22 @@ import database.Database;
 
 public class Login {
 
-    public void verifyName(String name){
+    public User verifyName(String name){
+        Database database = Database.getDatabase();
+        for(User user : database.getUsers()){
+            if(user.getName().equals(name)){
+                return user;
+            }
+        }
+        return null;
+    }
 
+    public boolean verifyPassword(User user , String passord){
+        if(user.getPassword().equals(passord)){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
 

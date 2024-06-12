@@ -3,6 +3,8 @@ package Auth;
 import User.User;
 import database.Database;
 
+import java.awt.desktop.SystemEventListener;
+
 //using getters and setters to encapsulate data
 //plus using the single responsibility principle from teh solid principles
 // to ensure that one class can only have one role and this is done by
@@ -16,20 +18,19 @@ public class Register {
         this.user = user;
     }
 
-    public void setName(String name) {
+    public void create(String name , String password){
         user.setName(name);
-    }
-
-    public void setPassword(String password) {
         user.setPassword(password);
     }
 
-    public void confirmPassword(String ConnfirmPassword) {
-        if (ConnfirmPassword == user.getPassword()) {
+
+    public boolean confirmPassword(String ConfirmPassword) {
+        if (ConfirmPassword.equals(user.getPassword())) {
             Database database = Database.getDatabase();
             database.addUser(user);
+            return true;
         } else {
-            System.out.println("Confirm Password is Incorrect");
+            return false;
         }
     }
 }
