@@ -1,17 +1,13 @@
 package Task;
+import Task.Enums.Status;
 import java.time.LocalDateTime;
-
-enum Status{
-    ToDo ,
-    Doing ,
-    Done
-}
+import User.User;
 public class Task {
     private int id ;
     private String title;
     private String description;
     private LocalDateTime deadLine ;
-    private Status  status;
+    private Status status;
 
     public Task(){
         id = (int) (Math.random()*1000000);
@@ -26,7 +22,7 @@ public class Task {
     }
 
     public LocalDateTime getDeadLine(){
-        return getDeadLine();
+        return deadLine;
     }
 
     public Status getStatus(){
@@ -49,11 +45,17 @@ public class Task {
         this.status = status;
     }
 
-    public void add(String title , String description , LocalDateTime deadLine , Status status){
+    public void add(User user , String title , String description , LocalDateTime deadLine , int option){
         setTitle(title);
         setDescription(description);
         setDeadLine(deadLine);
-        setStatus(status);
+        switch(option){
+            case 1 : setStatus(Status.ToDo); break ;
+            case 2 : setStatus(Status.Doing);break;
+            case 3 : setStatus(Status.Done);break;
+        }
+
+        user.setTasks(this);
     }
 
 }

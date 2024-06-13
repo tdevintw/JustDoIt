@@ -1,13 +1,48 @@
 import Auth.Login;
 import Auth.Register;
+import Task.Task;
 import User.User;
-import database.Database;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
     private static User currentUser;
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int option;
+
+        if (currentUser == null) {
+            System.out.println("Welcome there, Start Your Journey with JustDoIt \n 1-Create Account | 2-Login to my Account \n Please choose one of the options");
+            option = input.nextInt();
+            currentUser = Authenticate(option);
+        }
+        System.out.println("Welcome Back " + currentUser.getName());
+
+
+        //Menu
+        User user = currentUser;
+        System.out.println("------------MyInfo------------");
+        System.out.println(" 1-Edit my Name \n 2-Edit my Password \n 3-Logout \n 4-Delete Account");
+        System.out.println("------------Tasks------------");
+        System.out.println(" 6-MyTasks \n 7-Add Task \n 8-Update Task \n 9-Delete Task");
+//        System.out.println("------------Filter Tasks------------");
+//        System.out.println(" 10-search a task by title \n 7-Filter task by title  \n 8-sort tasks by deadline \n 9-sort by status");
+        option = input.nextInt();
+        if (5 < option && option < 10) {
+            manageTasks(user, option);
+        } else {
+            editInfo(user, option);
+        }
+
+
+    }
 
 
     public static User Authenticate(int option) {
@@ -37,11 +72,10 @@ public class Main {
                 register.confirmPassword(confirmPassword);
             }
             System.out.println("Congratulations Your account has been created !!");
-            user.setAuthenticated(true);
+//            user.setAuthenticated(true);
             return user;
         } else if (option == 2) {
-            System.out.println("Welcome Dear !");
-            System.out.println("please enter your name");
+            System.out.println("Welcome Dear ! \n please enter your name");
             Login login = new Login();
             String name = input.nextLine();
             while (login.verifyName(name) == null) {
@@ -60,7 +94,7 @@ public class Main {
                 password = input.nextLine();
                 login.verifyPassword(user, password);
             }
-            user.setAuthenticated(true);
+//            user.setAuthenticated(true);
             return user;
         } else {
             System.out.println("Please Enter A valid options , or exit by entering 0");
@@ -73,40 +107,6 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        int option = 0;
-
-        if (currentUser == null) {
-            System.out.println("Welcome there, Start Your Journey with JustDoIt");
-            System.out.println("1-Create Account | 2-Login to my Account");
-            System.out.println("Please choose one of the options");
-            option = input.nextInt();
-//            User user = new User();
-//            currentUser = user;
-//            user.setName("yasser");
-//            user.setPassword("0668");
-//            Database database = Database.getDatabase();
-//            database.addUser(user);
-//        for(User usertest : database.getUsers()){
-//            System.out.println("name is "+usertest.getName());
-//        }
-            currentUser = Authenticate(option);
-        }
-        System.out.println("Welcome Back " + currentUser.getName());
-
-
-        //Menu
-        User user = currentUser;
-        System.out.println("1-Edit my Name");
-        System.out.println("2-Edit my Password");
-        System.out.println("3-Logout");
-        System.out.println("4-Delete Account");
-        option = input.nextInt();
-        editInfo(user, option);
-
-
-    }
 
     public static void editInfo(User user, int option) {
         Scanner input = new Scanner(System.in);
@@ -123,7 +123,6 @@ public class Main {
             System.out.println("Enter your current password , or  type return to return ");
             String password = input.nextLine();
             if (password.equals("return")) {
-                System.out.println("gggg");
                 main(null);
             }
 
@@ -145,9 +144,9 @@ public class Main {
             currentUser = null;
             main(null);
         } else if (option == 4) {
-            System.out.println("areyou sure you want to delete your account , all your data will be vanished (yes/no)");
-            String decesion = input.nextLine();
-            if (decesion.equals("yes")) {
+            System.out.println("are you sure you want to delete your account , all your data will be vanished (yes/no)");
+            String decision = input.nextLine();
+            if (decision.equals("yes")) {
                 currentUser.deleteAccount();
                 currentUser = null;
 
@@ -159,6 +158,60 @@ public class Main {
             System.out.println("choose an available option ");
             option = input.nextInt();
             editInfo(user, option);
+        }
+    }
+
+    public static void manageTasks(User user, int option) {
+        Scanner input = new Scanner(System.in);
+
+
+        if (option == 6) {
+            ArrayList<Task> tasks = user.getTasks();
+            if (tasks == null) {
+                System.out.println("There is no tasks yet ! , do you want to create your first task now (Yes/Nop)");
+                String choice = input.nextLine();
+                if (choice.equals("Yes")) {
+                    manageTasks(user, 7);
+                }
+            } else {
+                int i = 0;
+
+                for (Task task : tasks) {
+                    i++;
+                    System.out.println("-----Task" + i + "-----");
+                    System.out.println("Title: " + task.getTitle());
+                    System.out.println("Description: " + task.getDescription());
+                    //format date
+                    LocalDateTime deadline = task.getDeadLine();
+                    DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy MMMM dd HH:mm:ss");
+                    String formattedDateTime = deadline.format(outputFormatter);
+                    System.out.println("Deadline: " + formattedDateTime);
+                    System.out.println("Status: " + task.getStatus());
+                    System.out.println();
+                }
+            }
+
+            System.out.println("return to menu...");
+            main(null);
+        }
+        //add task
+        else if (option == 7) {
+            System.out.println("Lets add your task");
+            System.out.println("Enter Task title");
+            String title = input.nextLine();
+            System.out.println("Enter Task Description");
+            String description = input.nextLine();
+            System.out.println("Enter Task time(format : yyyy-MM-dd HH:mm:ss)");
+            String deadline = input.nextLine();
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime time = LocalDateTime.parse(deadline, format);
+            System.out.println("Enter Task ToDo: 1 , Doing : 2  , Done : 3");
+            int Status = input.nextInt();
+            Task newTask = new Task();
+            newTask.add(user, title, description, time, Status);
+            System.out.println("Congratulations Task add successfully , return to menu...");
+            main(null);
+
         }
     }
 }

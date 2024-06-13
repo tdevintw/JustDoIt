@@ -1,9 +1,7 @@
 package Auth;
-
 import User.User;
 import database.Database;
 
-import java.awt.desktop.SystemEventListener;
 
 //using getters and setters to encapsulate data
 //plus using the single responsibility principle from teh solid principles
