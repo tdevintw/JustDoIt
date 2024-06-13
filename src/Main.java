@@ -36,7 +36,7 @@ public class Main {
 //        System.out.println(" 10-search a task by title \n 7-Filter task by title  \n 8-sort tasks by deadline \n 9-sort by status");
         option = input.nextInt();
         if (5 < option && option < 10) {
-            manageTasks(user, option , false);
+            manageTasks(user, option, false);
         } else {
             editInfo(user, option);
         }
@@ -161,9 +161,9 @@ public class Main {
         }
     }
 
-    public static void manageTasks(User user, int option , boolean call) {
+    public static void manageTasks(User user, int option, boolean call) {
         Scanner input = new Scanner(System.in);
-
+        Scanner userInput = new Scanner(System.in);
 
         if (option == 6) {
             ArrayList<Task> tasks = user.getTasks();
@@ -171,7 +171,7 @@ public class Main {
                 System.out.println("There is no tasks yet ! , do you want to create your first task now (Yes/Nop)");
                 String choice = input.nextLine();
                 if (choice.equals("Yes")) {
-                    manageTasks(user, 7 , false);
+                    manageTasks(user, 7, false);
                 }
             } else {
                 int i = 0;
@@ -191,7 +191,7 @@ public class Main {
                     System.out.println();
                 }
             }
-            if(!call){
+            if (!call) {
                 System.out.println("return to menu...");
                 main(null);
             }
@@ -214,13 +214,35 @@ public class Main {
             System.out.println("Congratulations Task add successfully , return to menu...");
             main(null);
 
-        }else if(option==9){
+        } else if (option == 8) {
+            //showing all tasks
+            System.out.println("Tasks");
+            System.out.println();
+            manageTasks(user , 6 , true);
+            //chose the task to edit by id
+            System.out.println("Enter the id of the task you want to edit");
+            int id = input.nextInt();
+            //new title
+            System.out.println("New Title: (if you want to keep the same skip)");
+            String title = userInput.nextLine();
+            title = title.isEmpty() ? null: title ;
+            System.out.println("New Description: (if you want to keep the same enter skip)");
+            String description = userInput.nextLine();
+            description = description.isEmpty() ? null: description ;
+            System.out.println("New Deadline (format : yyyy-MM-dd HH1:mm:ss): (if you want to keep the same enter skip)");
+            String deadLine = userInput.nextLine();
+            deadLine = deadLine.isEmpty() ? null: deadLine ;
+            System.out.println("New Status(1-ToDo , 2-Doing , 3-Done) (if you want to keep the same enter 0)");
+            int Status = input.nextInt();
+            Task.edit(user , title , description , deadLine , Status  , id);
+            main(null);
+        } else if (option == 9) {
             System.out.println("Tasks:");
             System.out.println();
-            manageTasks(user , 6 ,true );
+            manageTasks(user, 6, true);
             System.out.println("Enter the id of the task you want to delete");
             int id = input.nextInt();
-            Task.delete(user , id);
+            Task.delete(user, id);
             main(null);
         }
     }
