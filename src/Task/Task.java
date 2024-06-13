@@ -5,6 +5,7 @@ import Task.Enums.Status;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 import User.User;
@@ -146,4 +147,62 @@ public class Task {
         }
 
     }
+
+    public static ArrayList<Task> filterByTitle(User user){
+        Scanner input = new Scanner(System.in);
+        ArrayList<Task> tasks = new ArrayList<>();
+        System.out.println("Enter the title of Task");
+        String title = input.nextLine();
+        for(Task task : user.getTasks()){
+            if(task.getTitle().contains(title)){
+                tasks.add(task);
+            }
+        }
+        return tasks;
+    }
+
+    public static ArrayList<Task> filterByDeadLine(User user){
+        Scanner input = new Scanner(System.in);
+        ArrayList<Task> tasks = new ArrayList<>();
+        System.out.println("Enter the deadline (yyyy-MM-dd HH:mm:ss)");
+        String deadline = input.nextLine();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime time = LocalDateTime.parse(deadline,format);
+        for(Task task : user.getTasks()){
+            if(task.getDeadLine().equals(time)){
+                tasks.add(task);
+            }
+        }
+        return tasks;
+    }
+
+    public static ArrayList<Task> filterByStatus(User user){
+        Status status;
+        Scanner input = new Scanner(System.in);
+        ArrayList<Task> tasks = new ArrayList<>();
+        System.out.println("Enter the status of Tasks (1-ToDo , 2-Doing , 3-Done)");
+        int option = input.nextInt();
+        switch (option){
+            case  1 : status = Status.ToDo;break;
+            case  2 : status = Status.Doing;break;
+            default:  status = Status.Done;break;
+        }
+
+        for(Task task : user.getTasks()){
+            if(task.getStatus().equals(status)){
+                tasks.add(task);
+            }
+        }
+        return tasks;
+    }
+
+    public static ArrayList<Task> sort(User user){
+        Scanner input = new Scanner(System.in);
+        ArrayList<Task> tasks;
+        System.out.println("Do you want to sort by 1-incrementally or 2-decrement ");
+        int option = input.nextInt();
+        tasks = user.getTasks();
+        return tasks;
+    }
 }
+

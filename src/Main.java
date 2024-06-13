@@ -3,6 +3,7 @@ import Auth.Register;
 import Task.Task;
 import User.User;
 
+import javax.annotation.processing.Filer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -32,11 +33,13 @@ public class Main {
         System.out.println(" 1-Edit my Name \n 2-Edit my Password \n 3-Logout \n 4-Delete Account");
         System.out.println("------------Tasks------------");
         System.out.println(" 6-MyTasks \n 7-Add Task \n 8-Update Task \n 9-Delete Task");
-//        System.out.println("------------Filter Tasks------------");
-//        System.out.println(" 10-search a task by title \n 7-Filter task by title  \n 8-sort tasks by deadline \n 9-sort by status");
+        System.out.println("------------Filter Tasks------------");
+        System.out.println(" 10-Filter task by title  \n 11-sort tasks by deadline \n 12-sort by status");
         option = input.nextInt();
         if (5 < option && option < 10) {
             manageTasks(user, option, false);
+        } else if (9 < option && option < 13) {
+            filterTasks(option);
         } else {
             editInfo(user, option);
         }
@@ -218,23 +221,23 @@ public class Main {
             //showing all tasks
             System.out.println("Tasks");
             System.out.println();
-            manageTasks(user , 6 , true);
+            manageTasks(user, 6, true);
             //chose the task to edit by id
             System.out.println("Enter the id of the task you want to edit");
             int id = input.nextInt();
             //new title
             System.out.println("New Title: (if you want to keep the same skip)");
             String title = userInput.nextLine();
-            title = title.isEmpty() ? null: title ;
+            title = title.isEmpty() ? null : title;
             System.out.println("New Description: (if you want to keep the same enter skip)");
             String description = userInput.nextLine();
-            description = description.isEmpty() ? null: description ;
+            description = description.isEmpty() ? null : description;
             System.out.println("New Deadline (format : yyyy-MM-dd HH1:mm:ss): (if you want to keep the same enter skip)");
             String deadLine = userInput.nextLine();
-            deadLine = deadLine.isEmpty() ? null: deadLine ;
+            deadLine = deadLine.isEmpty() ? null : deadLine;
             System.out.println("New Status(1-ToDo , 2-Doing , 3-Done) (if you want to keep the same enter 0)");
             int Status = input.nextInt();
-            Task.edit(user , title , description , deadLine , Status  , id);
+            Task.edit(user, title, description, deadLine, Status, id);
             main(null);
         } else if (option == 9) {
             System.out.println("Tasks:");
@@ -245,5 +248,28 @@ public class Main {
             Task.delete(user, id);
             main(null);
         }
+    }
+
+    public static void filterTasks(int option ){
+        ArrayList<Task> tasks;
+        switch (option){
+            case 10 : tasks = Task.filterByTitle(currentUser) ;break;
+            case 11 : tasks = Task.filterByDeadLine(currentUser) ;break;
+            default: tasks = Task.filterByStatus(currentUser) ;break;
+        }
+        if(tasks.isEmpty()){
+            System.out.println("No tasks Found");
+            main(null);
+        }else{
+            for(Task task : tasks){
+                System.out.println();
+                System.out.println();
+                System.out.println("title: "+task.getTitle());
+                System.out.println("description: "+ task.getDescription());
+                System.out.println("deadline: "+task.getDeadLine());
+                System.out.println("status: "+task.getStatus());
+            }
+        }
+        main(null);
     }
 }
