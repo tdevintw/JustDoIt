@@ -34,11 +34,11 @@ public class Main {
         System.out.println("------------Tasks------------");
         System.out.println(" 6-MyTasks \n 7-Add Task \n 8-Update Task \n 9-Delete Task");
         System.out.println("------------Filter Tasks------------");
-        System.out.println(" 10-Filter task by title  \n 11-sort tasks by deadline \n 12-sort by status");
+        System.out.println(" 10-Filter task by title  \n 11-sort tasks by deadline \n 12-sort by status \n 13-sort alphabetically");
         option = input.nextInt();
         if (5 < option && option < 10) {
             manageTasks(user, option, false);
-        } else if (9 < option && option < 13) {
+        } else if (9 < option && option < 14) {
             filterTasks(option);
         } else {
             editInfo(user, option);
@@ -255,7 +255,9 @@ public class Main {
         switch (option){
             case 10 : tasks = Task.filterByTitle(currentUser) ;break;
             case 11 : tasks = Task.filterByDeadLine(currentUser) ;break;
-            default: tasks = Task.filterByStatus(currentUser) ;break;
+            case 12 : tasks = Task.filterByStatus(currentUser) ;break;
+            default : tasks = Task.sort(currentUser) ;break;
+
         }
         if(tasks.isEmpty()){
             System.out.println("No tasks Found");

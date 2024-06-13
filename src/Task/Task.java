@@ -198,11 +198,36 @@ public class Task {
 
     public static ArrayList<Task> sort(User user){
         Scanner input = new Scanner(System.in);
-        ArrayList<Task> tasks;
-        System.out.println("Do you want to sort by 1-incrementally or 2-decrement ");
+        System.out.println("Do want to sort by order 1-increase or 2-decrease");
         int option = input.nextInt();
-        tasks = user.getTasks();
+        ArrayList<Task> tasks = user.getTasks();
+        if(option==1){
+            for(int i = tasks.size()-1; i >=0 ; i--){
+                for(int j = 0 ; j<i ; j++){
+
+                    if((tasks.get(j).getTitle().toLowerCase().compareTo(tasks.get(j + 1).getTitle().toLowerCase()) > 0)){
+                        Task temp = tasks.get(j);
+                        tasks.set(j,tasks.get(j+1));
+                        tasks.set(j+1,temp);
+                    }
+                }
+            }
+        }else{
+            for(int i = tasks.size()-1; i >=0 ; i--){
+                for(int j = 0 ; j<i ; j++){
+
+                    if((tasks.get(j).getTitle().toLowerCase().compareTo(tasks.get(j + 1).getTitle().toLowerCase()) < 0)){
+                        Task temp = tasks.get(j);
+                        tasks.set(j,tasks.get(j+1));
+                        tasks.set(j+1,temp);
+                    }
+                }
+            }
+        }
+
+
         return tasks;
+
     }
 }
 
