@@ -36,7 +36,7 @@ public class Main {
 //        System.out.println(" 10-search a task by title \n 7-Filter task by title  \n 8-sort tasks by deadline \n 9-sort by status");
         option = input.nextInt();
         if (5 < option && option < 10) {
-            manageTasks(user, option);
+            manageTasks(user, option , false);
         } else {
             editInfo(user, option);
         }
@@ -161,7 +161,7 @@ public class Main {
         }
     }
 
-    public static void manageTasks(User user, int option) {
+    public static void manageTasks(User user, int option , boolean call) {
         Scanner input = new Scanner(System.in);
 
 
@@ -171,7 +171,7 @@ public class Main {
                 System.out.println("There is no tasks yet ! , do you want to create your first task now (Yes/Nop)");
                 String choice = input.nextLine();
                 if (choice.equals("Yes")) {
-                    manageTasks(user, 7);
+                    manageTasks(user, 7 , false);
                 }
             } else {
                 int i = 0;
@@ -179,6 +179,7 @@ public class Main {
                 for (Task task : tasks) {
                     i++;
                     System.out.println("-----Task" + i + "-----");
+                    System.out.println("Id: " + task.getId());
                     System.out.println("Title: " + task.getTitle());
                     System.out.println("Description: " + task.getDescription());
                     //format date
@@ -190,9 +191,10 @@ public class Main {
                     System.out.println();
                 }
             }
-
-            System.out.println("return to menu...");
-            main(null);
+            if(!call){
+                System.out.println("return to menu...");
+                main(null);
+            }
         }
         //add task
         else if (option == 7) {
@@ -212,6 +214,14 @@ public class Main {
             System.out.println("Congratulations Task add successfully , return to menu...");
             main(null);
 
+        }else if(option==9){
+            System.out.println("Tasks:");
+            System.out.println();
+            manageTasks(user , 6 ,true );
+            System.out.println("Enter the id of the task you want to delete");
+            int id = input.nextInt();
+            Task.delete(user , id);
+            main(null);
         }
     }
 }

@@ -57,7 +57,9 @@ public class User {
     }
 
     public void setTasks(Task task){
-        tasks = new ArrayList<Task>();
+        if(tasks ==null){
+            tasks = new ArrayList<Task>();
+        }
         tasks.add(task);
     }
 

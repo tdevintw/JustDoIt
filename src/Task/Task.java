@@ -1,9 +1,14 @@
 package Task;
 import Task.Enums.Status;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import User.User;
+import com.sun.tools.javac.Main;
+
 public class Task {
-    private int id ;
+    private final int id ;
     private String title;
     private String description;
     private LocalDateTime deadLine ;
@@ -11,6 +16,10 @@ public class Task {
 
     public Task(){
         id = (int) (Math.random()*1000000);
+    }
+
+    public int getId(){
+        return id;
     }
 
     public String getTitle(){
@@ -58,4 +67,24 @@ public class Task {
         user.setTasks(this);
     }
 
+    public static void delete(User user , int id){
+        Scanner input = new Scanner(System.in);
+        ArrayList<Task> tasks = user.getTasks();
+        boolean findIt = false;
+        for(int i  = 0 ; i<tasks.size() ; i++){
+            if((tasks.get(i).getId())==id){
+                findIt = true;
+                System.out.println("Are you sure you want to delete this Task (Yes/No)");
+                String choice = input.nextLine();
+                if(choice.equals("Yes")){
+                    tasks.remove(i);
+                    break;
+                }
+            }
+        }
+        if(!findIt){
+            System.out.println("The id doesnt exist , hmmm...");
+        }
+
+    }
 }
