@@ -21,7 +21,6 @@ public class Register {
         user.setPassword(password);
     }
 
-
     public boolean confirmPassword(String ConfirmPassword) {
         if (ConfirmPassword.equals(user.getPassword())) {
             Database database = Database.getDatabase();

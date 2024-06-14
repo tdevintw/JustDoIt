@@ -41,9 +41,7 @@ public class User {
         password = Password;
     }
 
-//    public void setAuthenticated(boolean status) {
-//        isAuthenticated = status;
-//    }
+
 
     public void deleteAccount() {
         Database database = Database.getDatabase();

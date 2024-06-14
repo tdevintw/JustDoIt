@@ -1,15 +1,10 @@
 package Task;
-
 import Task.Enums.Status;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
-
 import User.User;
-import com.sun.tools.javac.Main;
 
 public class Task {
     private final int id;
@@ -160,7 +155,6 @@ public class Task {
         }
         return tasks;
     }
-
     public static ArrayList<Task> filterByDeadLine(User user){
         Scanner input = new Scanner(System.in);
         ArrayList<Task> tasks = new ArrayList<>();
@@ -175,7 +169,6 @@ public class Task {
         }
         return tasks;
     }
-
     public static ArrayList<Task> filterByStatus(User user){
         Status status;
         Scanner input = new Scanner(System.in);
@@ -187,7 +180,6 @@ public class Task {
             case  2 : status = Status.Doing;break;
             default:  status = Status.Done;break;
         }
-
         for(Task task : user.getTasks()){
             if(task.getStatus().equals(status)){
                 tasks.add(task);
@@ -195,7 +187,6 @@ public class Task {
         }
         return tasks;
     }
-
     public static ArrayList<Task> sort(User user){
         Scanner input = new Scanner(System.in);
         System.out.println("Do want to sort by order 1-increase or 2-decrease");
@@ -224,10 +215,7 @@ public class Task {
                 }
             }
         }
-
-
         return tasks;
-
     }
 }
 

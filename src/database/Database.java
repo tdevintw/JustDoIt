@@ -1,8 +1,6 @@
 package database;
 import User.User;
 import  java.util.ArrayList;
-
-
 // implementing the Singleton Design Pattern to enable that only one instance can
 //be created that store the users values.
 
@@ -23,7 +21,6 @@ public class Database {
     public ArrayList<User> getUsers(){
         return users;
     }
-
     public void addUser(User user){
         users.add(user);
     }
